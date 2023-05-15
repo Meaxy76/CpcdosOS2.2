@@ -1,0 +1,4 @@
+;Register Cwc before using a .cwmake
+>
+-#Run clean.bat
+>

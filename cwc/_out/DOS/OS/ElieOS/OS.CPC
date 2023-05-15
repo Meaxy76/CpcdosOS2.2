@@ -1,0 +1,8 @@
+rem/ ElieOS OS.CPC file
+txt/ ElieOS OS.CPC!
+set/ SCR_IMG = CPCDOS.PNG
+set/ OS_VERSION = 4.0
+SET/ AUTHOR = Meaxy Kusama
+set/ HOST_OS = OS/ElieOS
+// exe/ OS/ELIEOS/APP.CPC
+// gui/

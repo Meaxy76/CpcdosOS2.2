@@ -1,0 +1,11 @@
+
+>
+-{_wToolchain}=VLianceTool/DJGPP_RT
+>
+fbc_dos -v -p ../FB/lib/dos/ @ARGS.CFG 
+>
+-#Copy LIBElieDraw.a ../FB/lib/DOS/LIBElieDraw.a
+-#Copy LIBElieDraw.a ../djgpp/lib/LIBElieDraw.a
+>
+;-#Launch Make_Cpcdos_init.CWMake
+>
