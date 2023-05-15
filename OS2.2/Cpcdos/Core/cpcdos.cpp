@@ -97,7 +97,7 @@ double Generate_RND(int start, int end){
 int Generate_id_kernel(){
     //_STRUCT_THREAD_Cpcdos_OSx__->KERNEL_ID = 0;
     STCDOSX.KERNEL_ID = int(Generate_RND(1,15));
-    printf("%d", STCDOSX.KERNEL_ID);
+    // printf("%d", STCDOSX.KERNEL_ID);
     return 0;
 }
 
