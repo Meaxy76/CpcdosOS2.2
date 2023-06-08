@@ -8,6 +8,10 @@
 #include <unistd.h>
 #include <algorithm>
 #include <map>
+#include <stdio.h>
+
+/*Linux headers*/
+#include <ncurses.h>
 
 #include "../include/debug.h"
 #include "../include/ccp_func.h"
@@ -16,12 +20,12 @@
 #include "../include/txt_ccp.h"
 #include "../../Cpcdos/include/sound.h"
 
-#include "../../CPinti/include/IO.h"
+//#include "../../CPinti/include/IO.h"
 
 std::string ActiveOS;
 
-SoundDevice mainsound;
-struct WaveData Voice;
+//SoundDevice mainsound;
+//struct WaveData Voice;
 
 using namespace std;
 using namespace CPCVAR;
@@ -39,7 +43,7 @@ void header_console(){
     unsigned char f = 188;
     
     cout << a << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << c;
-    cout << d << " Cpcdos OS2.2 " << _MINOR_VERSION << "                                          CPU : N/A %" << d;
+    cout << d << " Cpcdos OS2.2 " << _MINOR_VERSION << " ARM                                      CPU : N/A %" << d;
     cout << d << "                               CpcdosC+ Console                    RAM : N/A %" << d;
     cout << e << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << b << f;
 }
@@ -50,7 +54,7 @@ char *cpinti_read_line(void)
   int position = 0;
   char *buffer = (char*)malloc(sizeof(char) * bufsize);
   int c;
-
+    //fflush(stdin);
   if (!buffer) {
     cout << "Cpcdos error" << endl;
     exit(EXIT_FAILURE);
@@ -58,7 +62,7 @@ char *cpinti_read_line(void)
 
     while (1) {
     // Read a character
-        c = getchar();
+        c = getch();
 
     // If we hit EOF, replace it with a null character and return.
         if (c == EOF || c == '\n') {
@@ -84,23 +88,23 @@ char *cpinti_read_line(void)
 int CpcdosCP_Shell(string cmd){
 
 
-    if(instr(ucase(cmd), "//") > 0){
+    if(instrcpc(ucase(cmd), "//") > 0){
         // code comment
-    } else if(instr(ucase(cmd), "REM/") > 0){
+    } else if(instrcpc(ucase(cmd), "REM/") > 0){
         // code comment
-    } else if(instr(ucase(cmd), "' ") > 0){
+    } else if(instrcpc(ucase(cmd), "' ") > 0){
         // code comment
-    } else if(instr(ucase(cmd), "STOPK/") > 0){
+    } else if(instrcpc(ucase(cmd), "STOPK/") > 0){
         CpcDebug("Stopping Cpcdos OS2.2 kernel...", 1, 3);
         system("cls");
         exit(1);
-    } else if(instr(ucase(cmd), "STOP/") > 0){
+    } else if(instrcpc(ucase(cmd), "STOP/") > 0){
         return 0;
-    } else if(instr(ucase(cmd), "HELP/") > 0){
+    } else if(instrcpc(ucase(cmd), "HELP/") > 0){
         CpcDebug("*List of CpcdosC+ Commands*", 4, 3);
         CpcDebug("TXT/", 4, 3);
         //we have help command!!
-    } else if(instr(ucase(cmd), "START/") > 0){
+    } else if(instrcpc(ucase(cmd), "START/") > 0){
         
         string buf;
         string buf2;
@@ -118,7 +122,7 @@ int CpcdosCP_Shell(string cmd){
             CpcdosCP_Shell("exe/ OS/" + ActiveOS + "/OS.CPC");
         }
         //we have help command!!
-    } else if(instr(ucase(cmd), "TXT/") > 0){
+    } else if(instrcpc(ucase(cmd), "TXT/") > 0){
 
         string buf;
         string buf2;
@@ -126,22 +130,22 @@ int CpcdosCP_Shell(string cmd){
         buf = ltrim(cmd, 0, 5);
         cout << Cpc_txt_exec::CCP_Parse_Text(buf) << endl;
         
-    } else if(instr(ucase(cmd), "COLORC/") > 0){
+    } else if(instrcpc(ucase(cmd), "COLORC/") > 0){
         //we have text command!!
         //CpcDebug("Command to set characters color", 1, debugstate);
         string buf;
         buf = ltrim(cmd, 0, 8);
         cout << buf << endl;
-    } else if(instr(ucase(cmd), "COLORB/") > 0){
+    } else if(instrcpc(ucase(cmd), "COLORB/") > 0){
         //CpcDebug("Command to set characters color", 1, debugstate);
         string buf;
         buf = ltrim(cmd, 0, 8);
         cout << buf << endl;
-    } else if(instr(ucase(cmd), "@#") > 0){
+    } else if(instrcpc(ucase(cmd), "@#") > 0){
         CpcDebug("We have to create a variable!", 1, debugstate);
         string buf;
         buf = ltrim(cmd, 0, 2);
-    } else if(instr(ucase(cmd), "SET/") > 0){
+    } else if(instrcpc(ucase(cmd), "SET/") > 0){
         /*
         /s
         /q
@@ -163,17 +167,17 @@ int CpcdosCP_Shell(string cmd){
         varcontent = ltrim(buf, 0, "=");
         CPCVAR::Define_CCP_Var(varname, varcontent);
 
-    } else if(instr(ucase(cmd), "CCP/") > 0){
+    } else if(instrcpc(ucase(cmd), "CCP/") > 0){
         
         //CpcDebug("CCP/ command detected", 1, debugstate);
         string buf;
         buf = ltrim(cmd, 0, 5);
 
-        if(instr(ucase(buf), "/SLEEP") > 0){
+        if(instrcpc(ucase(buf), "/SLEEP") > 0){
             CpcDebug("Sleep command detected", 1, debugstate);
-        } else if(instr(ucase(buf), "/OPTIMIZATION") > 0){
+        } else if(instrcpc(ucase(buf), "/OPTIMIZATION") > 0){
             CpcDebug("COM command detected", 1, debugstate);
-        } else if(instr(ucase(buf), "/CHANGE:") > 0){
+        } else if(instrcpc(ucase(buf), "/CHANGE:") > 0){
             CpcDebug("COM command detected", 1, debugstate);
         }
 
@@ -182,7 +186,7 @@ int CpcdosCP_Shell(string cmd){
         /begin_critical_section
         /end_critical_section
         */
-    } else if(instr(ucase(cmd), "IF/") > 0){
+    } else if(instrcpc(ucase(cmd), "IF/") > 0){
         /*
             then:
             else:
@@ -193,12 +197,12 @@ int CpcdosCP_Shell(string cmd){
         CpcDebug("IF/ command detected", 1, debugstate);
         // CPCIF::Parse_if_statement(blabla);
 
-    } else if(instr(ucase(cmd), "OPEN/") > 0){
+    } else if(instrcpc(ucase(cmd), "OPEN/") > 0){
         //we have exe command!!
         CpcDebug("OPEN/ command detected", 1, debugstate);
         // CPCOPEN::Open_file(MyFile);
 
-    } else if(instr(ucase(cmd), "WRITE/") > 0){
+    } else if(instrcpc(ucase(cmd), "WRITE/") > 0){
         /*
             /BIN
             /APP
@@ -208,94 +212,94 @@ int CpcdosCP_Shell(string cmd){
         CpcDebug("OPEN/ command detected", 1, debugstate);
         // CPCWRITE::Write_file(file, content, mode);
 
-    } else if(instr(ucase(cmd), "SYS/") > 0){
+    } else if(instrcpc(ucase(cmd), "SYS/") > 0){
         
         string buf2;
         string buf3;
         string buf4;
 
         buf2 = ltrim(cmd, 0, 5);
-        if(instr(ucase(buf2), "/COM1") > 0){
+        if(instrcpc(ucase(buf2), "/COM1") > 0){
             CpcDebug("COM command detected", 1, debugstate);
-        } else if(instr(ucase(buf2), "/COM2") > 0){
+        } else if(instrcpc(ucase(buf2), "/COM2") > 0){
             CpcDebug("COM command detected", 1, debugstate);
-        } else if(instr(ucase(buf2), "/COM3") > 0){
+        } else if(instrcpc(ucase(buf2), "/COM3") > 0){
             CpcDebug("COM command detected", 1, debugstate);
-        } else if(instr(ucase(buf2), "/COM4") > 0){
+        } else if(instrcpc(ucase(buf2), "/COM4") > 0){
             CpcDebug("COM command detected", 1, debugstate);
-        } else if(instr(ucase(buf2), "/SB16") > 0){
+        } else if(instrcpc(ucase(buf2), "/SB16") > 0){
 
-            mainsound = SBDMA_device;
+            //mainsound = SBDMA_device;
             buf3 = ltrim(buf2, 0, 6);
-            if(instr(ucase(buf3), "/PLAY") > 0){
+            if(instrcpc(ucase(buf3), "/PLAY") > 0){
                 buf4 = ltrim(buf3, 0, 6);
                 CpcDebug(buf4.c_str(), 1, debugstate);
-	            mainsound.Sound_Load(buf4.c_str(), &Voice);
+	            //mainsound.Sound_Load(buf4.c_str(), &Voice);
                 
-                mainsound.Sound_Play(&Voice);
+                //mainsound.Sound_Play(&Voice);
 
 	            
             }
-            if(instr(ucase(buf3), "/STOP") > 0){
+            if(instrcpc(ucase(buf3), "/STOP") > 0){
                 buf4 = ltrim(buf3, 0, 6);
                 CpcDebug("Stop playing the file.", 1, debugstate);
-	            mainsound.Sound_Unload(&Voice);
-	            mainsound.Sound_Close();
+	            //mainsound.Sound_Unload(&Voice);
+	            //mainsound.Sound_Close();
             }
-            if(instr(ucase(buf3), "= 1") > 0){
+            if(instrcpc(ucase(buf3), "= 1") > 0){
                 CpcDebug("Init SoundBlaster 16.", 1, debugstate);
-	            mainsound.Sound_Init();
+	            //mainsound.Sound_Init();
             }
-        } else if(instr(ucase(buf2), "/OS:") > 0){
+        } else if(instrcpc(ucase(buf2), "/OS:") > 0){
 
             buf3 = ltrim(buf2, 0, 4);
             ActiveOS = switchcpc_os(buf3);
 
-        } else if(instr(ucase(buf2), "/DEBUG") > 0){
+        } else if(instrcpc(ucase(buf2), "/DEBUG") > 0){
             buf3 = ltrim(buf2, 0, 7);
-            if(instr(ucase(buf3), "= 0") > 0){
+            if(instrcpc(ucase(buf3), "= 0") > 0){
                 debugstate = 1;
-            } else if(instr(ucase(buf3), "= 1") > 0){
+            } else if(instrcpc(ucase(buf3), "= 1") > 0){
                 debugstate = 4;
-            } else if(instr(ucase(buf3), "= 2") > 0){
+            } else if(instrcpc(ucase(buf3), "= 2") > 0){
                 debugstate = 5;
             }
-        } else if(instr(ucase(buf2), "/SCREEN") > 0){
+        } else if(instrcpc(ucase(buf2), "/SCREEN") > 0){
             CPC_screen_list();
         }
 
-    } else if(instr(ucase(cmd), "GOTO/") > 0){
+    } else if(instrcpc(ucase(cmd), "GOTO/") > 0){
         //we have exe command!!
         CpcDebug("Exe/ command detected", 1, debugstate);
 
-    } else if(instr(ucase(cmd), "DIR/") > 0){
+    } else if(instrcpc(ucase(cmd), "DIR/") > 0){
 
         CpcDebug("DIR command", 1, debugstate);
         // CPCDIR::Get_Dir(arg);
 
-    } else if(instr(ucase(cmd), "COPY/") > 0){
+    } else if(instrcpc(ucase(cmd), "COPY/") > 0){
 
         CpcDebug("COPY command", 1, debugstate);
         // CPCCOPY::Copy_File(source, destination);
 
-    } else if(instr(ucase(cmd), "EXE/") > 0){
+    } else if(instrcpc(ucase(cmd), "EXE/") > 0){
         
         string buf2;
         string buf3;
 
         buf2 = ltrim(cmd, 0, 5);
         
-        if(instr(ucase(buf2), "&+") > 0){
+        if(instrcpc(ucase(buf2), "&+") > 0){
             CpcDebug("&+ command detected", 1, debugstate);
             buf3 = ltrim(buf2, 0, 3);
             Cpc_Interpreter(buf3);
             return 0;
-        } else if(instr(ucase(buf2), "&") > 0){
+        } else if(instrcpc(ucase(buf2), "&") > 0){
             CpcDebug("& command detected", 1, debugstate);
             buf3 = ltrim(buf2, 0, 2);
             Cpc_Interpreter(buf3);
             return 0;
-        } else if(instr(ucase(buf2), "/WIN32") > 0){
+        } else if(instrcpc(ucase(buf2), "/WIN32") > 0){
             CpcDebug("/WIN32 command detected", 1, debugstate);
             CpcDebug("Need XE-Loader!", 3, 1);
             return 0;
@@ -305,42 +309,42 @@ int CpcdosCP_Shell(string cmd){
             return 0;
         }
         //CpcdosCP_cpc_load(buf2);
-    } else if(instr(ucase(cmd), "RENAME/") > 0){
+    } else if(instrcpc(ucase(cmd), "RENAME/") > 0){
         
         CpcDebug("Exe/ command detected", 1, debugstate);
         // CPCRENAME::Rename_file(old, new);
 
-    } else if(instr(ucase(cmd), "DELETE/") > 0){
+    } else if(instrcpc(ucase(cmd), "DELETE/") > 0){
 
         CpcDebug("Exe/ command detected", 1, debugstate);
         //CPCDEL::Delete_File(file);
 
-    } else if(instr(ucase(cmd), "FOLDER/") > 0){
+    } else if(instrcpc(ucase(cmd), "FOLDER/") > 0){
 
         CpcDebug("Exe/ command detected", 1, debugstate);
         //CPCFOLDER::Create_Folder(foldername);
 
-    } else if(instr(ucase(cmd), "DECOMPRESS/") > 0){
+    } else if(instrcpc(ucase(cmd), "DECOMPRESS/") > 0){
 
         CpcDebug("Exe/ command detected", 1, debugstate);
         //CPCARCH::decompress_zip(source, destination);
 
-    } else if(instr(ucase(cmd), "COMPRESS/") > 0){
+    } else if(instrcpc(ucase(cmd), "COMPRESS/") > 0){
 
         CpcDebug("Exe/ command detected", 1, debugstate);
         //CPCARCH::compress_zip(source, destination);
 
-    } else if(instr(ucase(cmd), "OSLIST/") > 0){
+    } else if(instrcpc(ucase(cmd), "OSLIST/") > 0){
         
         ActiveOS = Cpcdos_Update_OS_list();
 
-    } else if(instr(ucase(cmd), "DOS/") > 0){
+    } else if(instrcpc(ucase(cmd), "DOS/") > 0){
         string buf2;
         // Need to implement MXDOS for loading dos program in GUI
         buf2 = ltrim(cmd, 0, 5);
         system(buf2.c_str());
 
-    } else if(instr(ucase(cmd), "GUI/") > 0){
+    } else if(instrcpc(ucase(cmd), "GUI/") > 0){
 
         CpcDebug("[CpcdosC+] : Warning! Cpcdos GUI is unstable for this version, it can cause crash of the shell", 2, debugstate);
         CpcDebug("Launching GUI...", 1, debugstate);
@@ -349,28 +353,28 @@ int CpcdosCP_Shell(string cmd){
         _CPC_SCI();
         
 
-    } else if(instr(ucase(cmd), "FUNCTION/") > 0){
+    } else if(instrcpc(ucase(cmd), "FUNCTION/") > 0){
 
         CpcDebug("[CpcdosC+] : Under construction", 2, debugstate);
 
         /* Locate Mouse event functions / custom functions of Cpcdos */
 
-    } else if(instr(ucase(cmd), "DECLARE/") > 0){
+    } else if(instrcpc(ucase(cmd), "DECLARE/") > 0){
 
         CpcDebug("[CpcdosC+] : Under construction", 2, debugstate);
         /* Declare functions in memory */
 
-    } else if(instr(ucase(cmd), "DRAWINGBOX/") > 0){
+    } else if(instrcpc(ucase(cmd), "DRAWINGBOX/") > 0){
         
 
-    } else if(instr(ucase(cmd), "WINDOW/") > 0){
+    } else if(instrcpc(ucase(cmd), "WINDOW/") > 0){
         WIN_CREATE = true;
 
         string WindowOBJ;
         WindowOBJ = ltrim(cmd, 0, 8);
         CpcDebug(WindowOBJ.c_str(), 1, debugstate);
 
-    } else if(instr(ucase(cmd), ".TITLE") > 0){
+    } else if(instrcpc(ucase(cmd), ".TITLE") > 0){
         string titlewin;
         int textpos;
         string buf;
@@ -386,36 +390,36 @@ int CpcdosCP_Shell(string cmd){
             wintitle = titlewin;
         }
         
-    } else if(instr(ucase(cmd), ".SETTINGS") > 0){
+    } else if(instrcpc(ucase(cmd), ".SETTINGS") > 0){
         //CpcDebug("SETTINGS", 1, debugstate);
             // Getting the settings of the windows
-        if(instr(ucase(cmd), "TYPE:0") > 0){
+        if(instrcpc(ucase(cmd), "TYPE:0") > 0){
                     // CpcDebug("Window of type 0!", 1, debugstate);
                     typewindow = 0;
                     // Getting the settings of the windows
-        } else if(instr(ucase(cmd), "TYPE:1") > 0){
+        } else if(instrcpc(ucase(cmd), "TYPE:1") > 0){
                     // CpcDebug("Window of type 1!", 1, debugstate);
                     typewindow = 1;
                     // Getting the settings of the windows
-        }else if(instr(ucase(cmd), "TYPE:2") > 0){
+        }else if(instrcpc(ucase(cmd), "TYPE:2") > 0){
                     // CpcDebug("Window of type 2!", 1, debugstate);
                     typewindow = 2;
                     // Getting the settings of the windows
-        }else if(instr(ucase(cmd), "TYPE:3") > 0){
+        }else if(instrcpc(ucase(cmd), "TYPE:3") > 0){
                     // CpcDebug("Window of type 3!", 1, debugstate);
                     typewindow = 3;
                     // Getting the settings of the windows
-        }else if(instr(ucase(cmd), "TYPE:4") > 0){
+        }else if(instrcpc(ucase(cmd), "TYPE:4") > 0){
                     // CpcDebug("Window of type 4!", 1, debugstate);
                     typewindow = 4;
                     // Getting the settings of the windows
-        }else if(instr(ucase(cmd), "TYPE:5") > 0){
+        }else if(instrcpc(ucase(cmd), "TYPE:5") > 0){
                     // CpcDebug("Window of type 5!", 1, debugstate);
                     typewindow = 5;
                     // Getting the settings of the windows
         }
 
-    } else if(instr(ucase(cmd), ".WINDOWCOLOR") > 0){
+    } else if(instrcpc(ucase(cmd), ".WINDOWCOLOR") > 0){
         string rgbcolor;
         string buf;
         int textpos;
@@ -440,7 +444,7 @@ int CpcdosCP_Shell(string cmd){
         }
         
 
-    } else if(instr(ucase(cmd), ".OPACITY") > 0){
+    } else if(instrcpc(ucase(cmd), ".OPACITY") > 0){
         int textpos;
         string buf;
         string opacity;
@@ -456,7 +460,7 @@ int CpcdosCP_Shell(string cmd){
         }
         
 
-    } else if(instr(ucase(cmd), ".SX") > 0){
+    } else if(instrcpc(ucase(cmd), ".SX") > 0){
         int textpos;
         string buf;
         string ObjSX;
@@ -471,7 +475,7 @@ int CpcdosCP_Shell(string cmd){
         }
         
 
-    } else if(instr(ucase(cmd), ".SY") > 0){
+    } else if(instrcpc(ucase(cmd), ".SY") > 0){
         int textpos;
         string buf;
         string ObjSY;
@@ -487,7 +491,7 @@ int CpcdosCP_Shell(string cmd){
         }
         
 
-    } else if(instr(ucase(cmd), ".PX") > 0){
+    } else if(instrcpc(ucase(cmd), ".PX") > 0){
         int textpos;
         string buf;
         string ObjPX;
@@ -503,7 +507,7 @@ int CpcdosCP_Shell(string cmd){
         }
         
 
-    } else if(instr(ucase(cmd), ".PY") > 0){
+    } else if(instrcpc(ucase(cmd), ".PY") > 0){
         int textpos;
         string buf;
         string ObjPY;
@@ -519,14 +523,14 @@ int CpcdosCP_Shell(string cmd){
         }
         
 
-    } else if(instr(ucase(cmd), ".ICON") > 0){
+    } else if(instrcpc(ucase(cmd), ".ICON") > 0){
             CpcDebug("ICON", 1, debugstate);
 
-    } else if(instr(ucase(cmd), "CREATE/") > 0){
+    } else if(instrcpc(ucase(cmd), "CREATE/") > 0){
             CpcDebug("CREATE", 1, debugstate);
             // get the window handle here -> send var name to FB and FB store the var + handle num to C++
 
-    } else if(instr(ucase(cmd), "END/ WINDOW") > 0){
+    } else if(instrcpc(ucase(cmd), "END/ WINDOW") > 0){
             //CpcDebug("END/ WINDOW", 1, debugstate);
 
         if(GUI_MODE == true){
@@ -539,13 +543,13 @@ int CpcdosCP_Shell(string cmd){
             CpcDebug("[CpcdosC+] : GUI must be loaded to create a Window", 2, 3);
         }
 
-    } else if(instr(ucase(cmd), "CLS/") > 0){
+    } else if(instrcpc(ucase(cmd), "CLS/") > 0){
         
-        system("cls");
-        header_console();
+        system("clear");
+        //header_console();
         cout << endl;
 
-    } else if(instr(ucase(cmd), ":") > 0){
+    } else if(instrcpc(ucase(cmd), ":") > 0){
 
         CpcDebug("We have a label", 1, debugstate);
 
@@ -574,20 +578,25 @@ int cmdloop(){
     GUI_MODE = false;
     char *line;
     char **args;
+    initscr();
+    //raw();
+    //noecho();
 
     unsigned char func;
     int status;
     status = 1;
         //CpcdosCP_Shell("cls/");
-    system("cls");
-    header_console();
+    system("clear");
+    
+    
+    //header_console();
     cout<<endl;
 
     if(GUI_MODE == false){
         do {
             if(GUI_MODE == false){
-                //cout << "> ";
-                CpcPrompt("> ", 15, 0);
+                cout << "> ";
+                //CpcPrompt("> ", 15, 0);
                 //cout << endl;
                 line = cpinti_read_line();
                 CpcdosCP_Shell(line);

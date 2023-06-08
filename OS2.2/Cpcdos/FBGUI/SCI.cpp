@@ -42,7 +42,7 @@ std::string Set_Resolution_Value(std::string resolution){
     int reslen;
     int xpos;
     int result;
-    if(instr(resolution, "x") > 0){
+    if(instrcpc(resolution, "x") > 0){
         
         reslen = len(resolution);
         xpos = find(resolution, "x");

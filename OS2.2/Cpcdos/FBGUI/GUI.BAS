@@ -1,5 +1,4 @@
 #include "fbgfx.bi"
-#include "dos/dpmi.bi"
 #Include "vbcompat.bi"
 
 Using FB
@@ -19,6 +18,8 @@ Declare Sub CloseWindow()
 #include "ElieDraw_textbox.bas"
 #include "ElieDraw_textblock.bas"
 #include "ElieDraw_picturebox.bas"
+#include "ElieDraw_console.bas"
+
 #include once "drawingbox.bi"
 #include once "button_obj.bi"
 
@@ -90,8 +91,8 @@ sub Test_Desktop()
 	ConsoleIconR = Imagecreate(64, 64, RGBA(0, 0, 0, 0))	
 
 	ConsoleIcon = charger_PNG("cmd.png", 32, 5, 128, 128)
-    IMG_change_size_quick(ConsoleIcon, ConsoleIconR,64, 64, 128, 128, 64, 64)
-    put(25, 25),ConsoleIconR, alpha
+    'IMG_change_size_quick(ConsoleIcon, ConsoleIconR,64, 64, 128, 128, 64, 64)
+    'put(25, 25),ConsoleIconR, alpha
 	ScreenSet(0,0)
 	PCopy 3, 1
 
@@ -102,13 +103,14 @@ Public Function eliedraw_gui cdecl Alias "eliedraw_gui" (SX as integer, SY as in
     Background(backgr)
     ScreenSet(0,2)
 	'Test_Desktop()
-    NewWindow("Win1", 10, 10, 400, 340, "My first app!", &h9e9e9e, 39, 232, 247) 
+    NewWindow("Win1", 10, 10, 400, 340, "CC+ Console", &h9e9e9e, 39, 232, 247) 
 	NewPicturebox("icon", 1, 10, 10, 64, 64)
     'ScreenSet(0,2)
 	cpcccp_.cpcdos_command("exe/ window.cpc")
 	
 	'NewTextbox("btn3", 1, 10, 10, 100, 50)
-	NewTextblock("bdddd", 1, 100, 90, 100, 50)
+	'NewTextblock("bdddd", 1, 100, 90, 100, 50)
+	NewConsole("bdddd", 1, 100, 90, 100, 50)
 	
 end function
 
@@ -255,6 +257,27 @@ Sub RePaint() '...'
 					PictureboxPTR(d)->y = WindowPTR(i)->y + PictureboxPTR(d)->y2 + TBH
 					PictureboxPTR(d)->IsVisible = True 
 					PictureboxPTR(d)->redraw()
+				End If
+            
+		Next   
+
+        For e As Integer = 1 To UBound(ConsolePTR)
+			If ConsolePTR(e) = 0 Then Continue For
+				If ConsolePTR(e)->pid = WindowPTR(i)->id Then	'if window has buttons Then
+					'if window width is smaller than buttons position hide them
+					If (ConsolePTR(e)->x2 + ConsolePTR(e)->sx + 8) >= WindowPTR(i)->sx Then
+						ConsolePTR(e)->IsVisible = False 
+						Continue For
+					End If
+					'if window height is smaller than buttons position hide them
+					If (ConsolePTR(e)->y2 + ConsolePTR(e)->sy + TBH + 4) >= WindowPTR(i)->sy Then 
+						ConsolePTR(e)->IsVisible = False 
+						Continue For
+					End If
+					ConsolePTR(e)->x = WindowPTR(i)->x + ConsolePTR(e)->x2 + 4
+					ConsolePTR(e)->y = WindowPTR(i)->y + ConsolePTR(e)->y2 + TBH
+					ConsolePTR(e)->IsVisible = True 
+					ConsolePTR(e)->redraw()
 				End If
             
 		Next

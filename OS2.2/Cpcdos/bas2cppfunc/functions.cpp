@@ -78,7 +78,7 @@ string ucase(string uc){
     return uc;
 }
 
-int instr(string incmd, string findcmd){
+int instrcpc(string incmd, string findcmd){
     if(incmd.find(findcmd)!=incmd.npos){
         //cout << "Command: " << incmd.find(findcmd)+1 << endl;
         return incmd.find(findcmd)+1;

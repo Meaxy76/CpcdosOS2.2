@@ -8,7 +8,7 @@
 #define MINH 30 'min height
 
 #include once "xfont.bi"
-#include once "ElieDraw_Ctrl.bi"
+#include once "ElieDraw_ctrl.bi"
 #include once "GUI.bi"
 
 Declare Sub NewWindow(hName As String, x As Integer, y As Integer, sx As Integer, sy As Integer, title As String, c As ULong, WR as Integer, WG as Integer, WB as Integer)
@@ -202,13 +202,15 @@ Sub CPCWindow.redraw() '...'
 
     'IMG_TEST = charger_PNG("title.png", 32, 5, 200,25)
 
-    CORNER_LEFT = charger_PNG("OS/MEDIA/GUI/WIN/WIN_TL.PNG", 32, 5, 7,7)
-    CORNER_RIGHT = charger_PNG("OS/MEDIA/GUI/WIN/WIN_TR.PNG", 32, 5, 7,7)
-    BETWEEN_CORNER = charger_PNG("OS/MEDIA/GUI/WIN/WIN_TM.PNG", 32, 5, 4,8)
+    CORNER_LEFT = charger_PNG("OS/MEDIA/GUI/WIN/WIN_TL.png", 32, 5, 7,7)
+    CORNER_RIGHT = charger_PNG("OS/MEDIA/GUI/WIN/WIN_TR.png", 32, 5, 7,7)
+    BETWEEN_CORNER = charger_PNG("OS/MEDIA/GUI/WIN/WIN_TM.png", 32, 5, 4,8)
 
-
+    if CORNER_LEFT = false then
+	print "ERROR"
+    end if
     '
-    UNDER_CORNERS = charger_PNG("OS/MEDIA/GUI/WIN/WIN_TM.PNG", 32, 5, 4,8)
+    UNDER_CORNERS = charger_PNG("OS/MEDIA/GUI/WIN/WIN_TM.png", 32, 5, 4,8)
     '
     UNDER_CORNERS1 = imagecreate(sx + 2, 19, RGBA(0, 0, 0, 0))
     IMG_change_size_quick(UNDER_CORNERS, UNDER_CORNERS1, x, x, 4, 8, sx + 2 , 19)
@@ -231,7 +233,7 @@ Sub CPCWindow.redraw() '...'
     put(x,y),CORNER_LEFT,Alpha
     put(x + sx - 7, y),CORNER_RIGHT,Alpha
     put(x - 1, y + 6), UNDER_CORNERS1, Alpha
-    'put(x + 7, y), BETWEEN_CORNER1, Alpha
+    put(x + 7, y), BETWEEN_CORNER1, Alpha
 
 
 	'Line(x + sx - 10, y + sy - 10) - (x + w, y + h), 0, BF	'angle

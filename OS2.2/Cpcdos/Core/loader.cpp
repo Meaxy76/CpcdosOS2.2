@@ -83,12 +83,12 @@ void __CPCDOS_INIT_1(char* argcpc){
 	sleep(1); // ' Laisser l'utilisateur visualiser*/
     CpcDebug("Init Multitask ...", 1, debugstate);
     bool testMT;
-    testMT = cpinti::task_manager::initialiser_Multitache();
-    if(testMT == true){
-        CpcDebug("done ...", 1, debugstate);
-    } else { 
-        CpcDebug("Multitask not loaded", 1, debugstate);
-    }
+    //testMT = cpinti::task_manager::initialiser_Multitache();
+    //if(testMT == true){
+    //    CpcDebug("done ...", 1, debugstate);
+    //} else { 
+    //    CpcDebug("Multitask not loaded", 1, debugstate);
+    //}
 
 
 
@@ -128,7 +128,7 @@ namespace cpc_init {
         __CPCDOS_INIT_1(s);
 		unsigned long CMD_PID;
         unsigned long CMD_TID;
-        CMD_PID = cpinti::task_manager::ajouter_Processus("CpcdosC+ Console");
+        //CMD_PID = cpinti::task_manager::ajouter_Processus("CpcdosC+ Console");
         /*CMD_TID = cpinti::task_manager::ajouter_Thread(cmdloop, "CpcdosC+ Console", CMD_PID, 2, 0);
         cpinti::task_manager::SAUVEGARDER_CONTEXTE(CMD_TID);
         cout << CMD_TID;

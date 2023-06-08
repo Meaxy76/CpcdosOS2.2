@@ -86,7 +86,7 @@ Function IMG_change_size_quick(byref Source as any ptr, byref Nouveau_IMG as any
 			For Boucle_Y = 1 to Taille_Y Step Calc_Y
 				AccPSET_Y = AccPSET_Y + 1
 				For Boucle_X = 1 to Nouveau_X
-					Put Nouveau_IMG, (Boucle_X , AccPSET_Y), Source, (Boucle_X / (Nouveau_X/Taille_X), Boucle_Y)-(Boucle_X / (Nouveau_X/Taille_X) + 1, Boucle_Y+1), PSet
+					Put Nouveau_IMG, (Boucle_X , AccPSET_Y), Source, (Boucle_X / (Nouveau_X/Taille_X), Boucle_Y)-(Boucle_X / (Nouveau_X/Taille_X) + 1, Boucle_Y+1), alpha
 				Next Boucle_X
 			Next Boucle_Y
 		End IF

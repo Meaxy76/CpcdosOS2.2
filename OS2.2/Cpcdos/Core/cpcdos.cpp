@@ -22,30 +22,18 @@ std::string Cpcdos_Update_OS_list(){
     
     const char *OS_LIST = "OS/OS.LST";
 
-    FILE *fptr;
-    
     CpcDebug("[Cpcdos] Updating informations about installed OS  ...", 1, debugstate);
 
-    std::ifstream in_file(OS_LIST, std::ios::binary);
-    in_file.seekg(0, std::ios::end);
-    unsigned long file_size = in_file.tellg();
+    std::ifstream file(OS_LIST);
 
-    int s(1);
-    int total = s * file_size;
-    std::string temp_str;
-    temp_str.push_back(total);
-    char *result = (char*) temp_str.c_str();
-    
-	std::string file_buffer = cpinti::file_manager::Read_file_full(OS_LIST, "rb", result, file_size);
 
     int OSPos = 0;
     std::string ACTOS;
     std::string OSName;
-    std::istringstream f(file_buffer);
     std::string line;    
-    while (std::getline(f, line)) {
+    while (std::getline(file, line)) {
         //std::cout << line << std::endl;
-        if(instr(ucase(line), ":") > 0){
+        if(instrcpc(ucase(line), ":") > 0){
             OSName = rtrim(line, ":");
             std::cout << OSName << std::endl;
             cpcdos_oslist[ucase(OSName)] = OSName;
@@ -69,23 +57,6 @@ std::string switchcpc_os(std::string name){
 
 int CpcdosCP_cpc_load(std::string cmd){
     
-    const char *CPCPROG = cmd.c_str();
-    
-    CpcDebug("Opening file  ...", 1, debugstate);
-    
-    std::ifstream in_file(CPCPROG, std::ios::binary);
-    in_file.seekg(0, std::ios::end);
-    unsigned long file_size = in_file.tellg();
-    int sa(1);
-    int total1 = sa * file_size;
-    std::string s2 = std::to_string(file_size);
-
-    std::string temp_str2;
-    temp_str2.push_back(total1);
-    char *result2 = (char*) temp_str2.c_str();
-    
-	std::string file_buffer2 = cpinti::file_manager::Read_file_full(CPCPROG, "rb", result2, file_size);
-    Cpc_Interpreter(file_buffer2);
 
     return 0;
 }
@@ -97,7 +68,7 @@ double Generate_RND(int start, int end){
 int Generate_id_kernel(){
     //_STRUCT_THREAD_Cpcdos_OSx__->KERNEL_ID = 0;
     STCDOSX.KERNEL_ID = int(Generate_RND(1,15));
-    // printf("%d", STCDOSX.KERNEL_ID);
+    printf("%d", STCDOSX.KERNEL_ID);
     return 0;
 }
 

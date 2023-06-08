@@ -21,7 +21,7 @@ namespace Cpc_txt_exec {
         // New to implement txt/ blabla %MyVar% okok
         // Or txt/ %MyVar% noice
 
-        if(instr(ucase(text), "%") > 0){
+        if(instrcpc(ucase(text), "%") > 0){
             txtlen = len(text);
             varstartpos = find(text, "%");
             buf = ltrim(text, 0, varstartpos + 1);

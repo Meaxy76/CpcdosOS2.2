@@ -1,5 +1,5 @@
 #include "../include/debug.h"
-#include <conio.h>
+//#include <conio.h>
 #include <iostream>
 #include <time.h>
 #include <fstream>
@@ -32,7 +32,7 @@ const std::string CurrentDateTime() {
 */
 int CpcDebug(const char *sMessage, int error_type, int state)
 {
-    if(state == 1){
+    /*if(state == 1){
         // we do nothing
         return 0;
 
@@ -157,12 +157,14 @@ int CpcDebug(const char *sMessage, int error_type, int state)
                 break;
 
         }
-    }
+    }*/
+    
+    std::cout << sMessage << std::endl;
     return 0;
 }
 int CpcPrompt(const char *sMessage, int color, int background)
 {
-        switch(color){
+        /*switch(color){
             case 0:
                 textcolor(BLACK);
                 cprintf("%s", sMessage);
@@ -232,6 +234,7 @@ int CpcPrompt(const char *sMessage, int color, int background)
                 cprintf("%s", sMessage);
                 break;
 
-        }
+        }*/
+        std::cout << sMessage << std::endl;
         return 0;
 }

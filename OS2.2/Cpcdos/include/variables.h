@@ -6,7 +6,7 @@
 
 namespace CPCVAR {
 
-    extern std::string SCR_RESOLUTION = "800x600";
-    extern std::string SCR_IMG = "OS/MEDIA/CPCDOS.PNG";
+    std::string SCR_RESOLUTION = "800x600";
+    std::string SCR_IMG = "CPCDOS.png";
 
 }

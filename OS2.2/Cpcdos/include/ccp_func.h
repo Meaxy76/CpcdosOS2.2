@@ -15,5 +15,5 @@ int len(string length);
 int find(string var, string token);
 
 string lcase(string lc);
-int instr(string incmd, string findcmd);
+int instrcpc(string incmd, string findcmd);
 string ucase(string uc);
