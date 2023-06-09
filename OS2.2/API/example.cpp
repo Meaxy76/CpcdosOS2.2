@@ -19,6 +19,7 @@ void main() {
         std::make_tuple(300, 200), // Window size.
         std::make_tuple(197,197,197), // Window color.
         std::make_tuple(000,000,000), // Title color.
+        "", // Settings.
         "WindowHandle" // Window handle name.
     );
 
@@ -29,6 +30,7 @@ void main() {
         std::make_tuple(255, 255, 255), // Text color.
         std::make_tuple(000, 000, 000), // Background color.
         myWindow, // Parent window.
+        "", // Settings.
         "TextboxHandle" // Textblock handle name.
     );
     
