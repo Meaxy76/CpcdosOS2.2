@@ -47,6 +47,9 @@
         "limits": "cpp",
         "numbers": "cpp",
         "streambuf": "cpp",
-        "system_error": "cpp"
-    }
+        "system_error": "cpp",
+        "typeindex": "cpp",
+        "*.ipp": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }

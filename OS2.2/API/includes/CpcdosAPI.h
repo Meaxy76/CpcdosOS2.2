@@ -18,13 +18,13 @@ namespace CpcdosAPI {
     public:
         std::string windowName;
         int windowType;
-        std::tuple<int, int> windowSize;
         std::tuple<int, int> windowPos;
+        std::tuple<int, int> windowSize;
         std::tuple<int, int, int, int> windowColor; // RGBA
         std::tuple<int, int, int> windowTitleColor;
         std::string windowHandle;
 
-        Window(std::string name, int type, std::tuple<int, int> size, std::tuple<int, int> pos, std::tuple<int, int, int, int> wincol, std::tuple<int, int, int> titlecol, std::string handle);
+        Window(std::string name, int type, std::tuple<int, int> pos, std::tuple<int, int> size, std::tuple<int, int, int, int> wincol, std::tuple<int, int, int> titlecol, std::string handle);
     };
 
     class Textblock {
@@ -34,9 +34,10 @@ namespace CpcdosAPI {
         std::tuple<int, int> textblockSize;
         std::tuple<int, int, int> textColor;
         std::tuple<int, int, int> backgroundColor;
+        Window parentWindow;
         std::string textboxHandle;
         
-        Textblock(std::string text, std::tuple<int, int> pos, std::tuple<int, int> size, std::tuple<int, int, int> textCol, std::tuple<int, int, int> backCol, std::string handle);
+        Textblock(std::string text, std::tuple<int, int> pos, std::tuple<int, int> size, std::tuple<int, int, int> textCol, std::tuple<int, int, int> backCol, Window parWin, std::string handle);
     };
 }
 
