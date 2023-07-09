@@ -14,7 +14,7 @@ namespace SVC_CPC {
 
     /* Get time value */
 
-	int GetTime(int mode){
+	/*int GetTime(int mode){
 	
    		// current date/time based on current system
       		time_t rawtime;
@@ -38,5 +38,5 @@ namespace SVC_CPC {
           			std::cout << buffer << std::endl;
           			return 0;
     		}
-    	}
+    	}*/
 }
