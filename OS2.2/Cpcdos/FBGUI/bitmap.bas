@@ -89,7 +89,19 @@ Function IMG_change_size_quick(byref Source as any ptr, byref Nouveau_IMG as any
 					Put Nouveau_IMG, (Boucle_X , AccPSET_Y), Source, (Boucle_X / (Nouveau_X/Taille_X), Boucle_Y)-(Boucle_X / (Nouveau_X/Taille_X) + 1, Boucle_Y+1), PSet
 				Next Boucle_X
 			Next Boucle_Y
-		End IF
+			End IF
+		ELSEIF Action_X = 0 then
+			if Action_Y = 0 then
+			'original
+				Nouveau_IMG = Source
+				'Put Nouveau_IMG, (Taille_X, Taille_Y), Source, Taille_X, Taille_Y, alpha
+			elseif Action_Y = 1 then
+			'reduct Y
+
+			elseif Action_Y = 2 then
+			'Size up Y
+
+			endif
 	End if	
 	Function = Nouveau_IMG
 	
