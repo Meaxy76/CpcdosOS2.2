@@ -58,6 +58,16 @@ namespace CpcdosAPI {
         );
     };
 
+    class Picturebox {
+    public:
+        std::string pictureboxHandle;
+        std::string pictureboxFilePath;
+        std::tuple<int, int> pictureboxPosition;
+        std::tuple<int, int> pictureboxSize;
+        int pictureboxDisplayType;
+        Window parentWindow;
+    };
+
     void terminal_print(std::string str);
 }
 
