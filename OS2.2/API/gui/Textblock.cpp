@@ -1,10 +1,10 @@
 #include <iostream>
-#include "../includes/CpcdosAPI.h"
+#include "../includes/CpcGuiAPI.h"
 
 #include "../../Cpcdos/include/sci.h"
 
 
-namespace CpcdosAPI {
+namespace CpcGuiAPI {
     Textblock::Textblock(   std::string text = "", 
                             std::tuple<int, int> pos = std::make_tuple(0, 0),
                             std::tuple<int, int> size = std::make_tuple(100, 100), 
