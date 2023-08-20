@@ -1,10 +1,10 @@
 #include <iostream>
-#include "../includes/CpcdosAPI.h"
+#include "../includes/CpcGuiAPI.h"
 
 #include "../../Cpcdos/include/sci.h"
 
 
-namespace CpcdosAPI {
+namespace CpcGuiAPI {
     Window::Window( std::string name = "Window", 
                     int type = 0, 
                     std::tuple<int, int> pos = std::make_tuple(0, 0),
