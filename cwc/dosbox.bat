@@ -1,1 +1,0 @@
-"dosbox/dosbox.exe" _out\DOS\krnl32.bat

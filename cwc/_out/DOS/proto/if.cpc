@@ -1,3 +1,0 @@
-if/ "%CPC.VER%" == "2.2" then:
-    txt/ noice
-end/ if

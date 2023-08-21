@@ -1,8 +1,0 @@
-
->
--{_wToolchain}=VLianceTool/DJGPP_RT
->
-fbc_dos -v -p ../FB/lib/dos/ -l stdc++ -l png -l fbgfx -l z @ARGS2.CFG 
->
-;-#Run dosbox.bat
->

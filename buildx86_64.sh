@@ -1,0 +1,1 @@
+g++ OS2.2/Cpcdos/Core/loader.cpp -std=c++98 -lncurses -o bin/cpcldr
